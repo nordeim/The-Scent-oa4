@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Scent | Immersive Aromatherapy</title>
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Example font choice; replace if your design uses a different family -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-..."
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <style>
+    /* ----------------------------------------------
+       Root Variables (Color Scheme, Fonts, etc.)
+    ---------------------------------------------- */
+    :root {
+      /* Primary brand color for major highlights (buttons, accents) */
+      --brand-color: #f47c53; 
+      /* Secondary brand color for subtle headings / backgrounds */
+      --brand-color-dark: #2b4c47;
+      /* Neutral background color */
+      --background-color: #f9f9f9;
+      /* Text colors */
+      --text-color: #333;
+      --text-color-light: #fff;
+      /* Footer background color */
+      --footer-bg-color: #2b4c47;
+      /* Link hover color */
+      --hover-color: #e86b43;
+      /* Font Families */
+      --heading-font: 'Cormorant Garamond', serif;
+      --body-font: 'Montserrat', sans-serif;
+    }
+
+    /* ----------------------------------------------
+       Global Resets & Basic Styling
+    ---------------------------------------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: var(--body-font);
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    ul {
+      list-style: none;
+    }
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--heading-font);
+      color: var(--text-color);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ----------------------------------------------
+       Header & Navigation
+    ---------------------------------------------- */
+    header {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      z-index: 999;
+    }
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      font-family: var(--heading-font);
+      color: var(--brand-color-dark);
+    }
+    nav ul {
+      display: flex;
+      gap: 1.5rem;
+    }
+    nav ul li {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    nav ul li a:hover {
+      color: var(--brand-color);
+    }
+    /* Theme Toggle or other icons if needed */
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* ----------------------------------------------
+       Hero Section
+    ---------------------------------------------- */
+    .hero-section {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-top: 80px; /* compensate for fixed header */
+      background: var(--brand-color-dark);
+      color: #fff;
+    }
+    .hero-video,
+    .hero-fallback {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    .hero-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.3);
+      z-index: -1;
+    }
+    .hero-content {
+      max-width: 700px;
+      padding: 0 1rem;
+    }
+    .hero-content h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .hero-content p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      line-height: 1.4;
+    }
+
+    /* Hero Button (Shop Now, etc.) */
+    .btn-hero {
+      background-color: var(--brand-color);
+      color: #fff;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      border-radius: 50px;
+    }
+    .btn-hero:hover {
+      background-color: var(--hover-color);
+      transform: scale(1.05);
+    }
+
+    /* Subtle Scent Trail / SVG */
+    .scent-trails {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ----------------------------------------------
+       About Section
+    ---------------------------------------------- */
+    .about-section {
+      background-color: #fff;
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+    .about-section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+    }
+    .about-section p {
+      max-width: 800px;
+      margin: 0 auto;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    /* ----------------------------------------------
+       Product Showcase
+    ---------------------------------------------- */
+    .products-section {
+      padding: 5rem 2rem;
+      background-color: #fefefe;
+      text-align: center;
+    }
+    .products-section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+    }
+    .product-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .product-card img {
+      width: 100%;
+      display: block;
+    }
+    .product-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+
+    /* ----------------------------------------------
+       Scent Quiz Section
+    ---------------------------------------------- */
+    .quiz-section {
+      background-color: var(--brand-color-dark);
+      color: #fff;
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+    .quiz-section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+    }
+    .quiz-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .quiz-step {
+      display: none;
+      animation: fadeIn 0.5s forwards;
+    }
+    .quiz-step.active {
+      display: block;
+    }
+    .quiz-buttons {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .quiz-buttons button {
+      background-color: var(--brand-color);
+      border: none;
+      color: #fff;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 50px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      margin-bottom: 0.5rem;
+    }
+    .quiz-buttons button:hover {
+      background-color: var(--hover-color);
+      transform: translateY(-2px);
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    /* ----------------------------------------------
+       Testimonials Section
+    ---------------------------------------------- */
+    .testimonials-section {
+      background-color: #fff;
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+    .testimonials-section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+    }
+    .testimonial-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .testimonial {
+      background: #f1f1f1;
+      padding: 1.5rem;
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+    .testimonial:hover {
+      transform: translateY(-3px);
+    }
+    .testimonial p {
+      font-style: italic;
+    }
+    .testimonial .author {
+      margin-top: 1rem;
+      font-weight: 600;
+      color: var(--brand-color-dark);
+    }
+
+    /* ----------------------------------------------
+       Newsletter / Subscription Call-Out
+    ---------------------------------------------- */
+    .newsletter-section {
+      background-color: #fff;
+      padding: 3rem 2rem;
+      text-align: center;
+      border-top: 1px solid #eee;
+    }
+    .newsletter-section p {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      max-width: 600px;
+      margin: 0.5rem auto 1.5rem;
+    }
+    .newsletter-form {
+      display: flex;
+      justify-content: center;
+      max-width: 500px;
+      margin: 0 auto;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .newsletter-form input[type="email"] {
+      flex: 1;
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    .newsletter-form button {
+      background-color: var(--brand-color);
+      border: none;
+      color: #fff;
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .newsletter-form button:hover {
+      background-color: var(--hover-color);
+      transform: scale(1.03);
+    }
+
+    /* ----------------------------------------------
+       Footer Section
+    ---------------------------------------------- */
+    footer {
+      background-color: var(--footer-bg-color);
+      color: var(--text-color-light);
+      padding: 3rem 2rem 2rem 2rem;
+    }
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+    }
+    .footer-column {
+      flex: 1 1 200px;
+      min-width: 200px;
+    }
+    .footer-column h3 {
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .footer-column ul li {
+      margin-bottom: 0.5rem;
+      color: var(--text-color-light);
+      font-size: 0.95rem;
+    }
+    .footer-column ul li a:hover {
+      color: var(--brand-color);
+    }
+    .footer-bottom {
+      text-align: center;
+      margin-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding-top: 1rem;
+      font-size: 0.9rem;
+      color: #ddd;
+    }
+
+    /* ----------------------------------------------
+       Floating "Shop Now" Button
+    ---------------------------------------------- */
+    .floating-cta {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--brand-color);
+      color: #fff;
+      border: none;
+      padding: 1rem 1.5rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      cursor: pointer;
+      z-index: 999;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      animation: pulse 2s infinite;
+      transition: transform 0.3s ease;
+    }
+    .floating-cta:hover {
+      transform: translateY(-3px) scale(1.02);
+      background-color: var(--hover-color);
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    /* ----------------------------------------------
+       Audio Toggle (If needed)
+    ---------------------------------------------- */
+    .audio-toggle {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      background: var(--brand-color);
+      color: #fff;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1000;
+      font-size: 1.2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+    .audio-toggle:hover {
+      transform: translateY(-3px) scale(1.05);
+      background-color: var(--hover-color);
+    }
+
+    /* ----------------------------------------------
+       Media Queries
+    ---------------------------------------------- */
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+      .hero-content p {
+        font-size: 1rem;
+      }
+      .footer-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+        <i class="fa fa-leaf" style="color: var(--brand-color); margin-right: 0.5rem;"></i>
+        The Scent
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">Our Story</a></li>
+          <li><a href="#products">Products</a></li>
+          <li><a href="#quiz">Scent Quiz</a></li>
+          <li><a href="#testimonials">Reviews</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <!-- If you want a theme toggle or any icons, place them here -->
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section" id="hero">
+    <div class="hero-overlay"></div>
+    <!-- Optional video background -->
+    <video class="hero-video" autoplay muted loop playsinline>
+      <source src="path/to/hero-video.mp4" type="video/mp4">
+      <!-- Fallback image if video cannot be played -->
+    </video>
+    <!-- Fallback static image (optional) -->
+    <!-- <div class="hero-fallback" style="background-image: url('path/to/fallback.jpg');"></div> -->
+
+    <!-- Subtle Scent Trail Overlays (Optional) -->
+    <div class="scent-trails">
+      <svg width="100%" height="100%">
+        <path d="M0,100 C150,200 350,0 500,100" stroke="#ffffff" stroke-opacity="0.3" fill="none">
+          <animate attributeName="d" dur="10s" repeatCount="indefinite" values="
+            M0,100 C150,200 350,0 500,100;
+            M0,120 C150,220 350,20 500,120;
+            M0,100 C150,200 350,0 500,100
+          " />
+        </path>
+      </svg>
+    </div>
+
+    <div class="hero-content">
+      <h1>Experience Aromatherapy Like Never Before</h1>
+      <p>Immerse your senses in premium essential oils and handcrafted soaps, lovingly made for your well-being.</p>
+      <button class="btn-hero" onclick="window.location.href='#products'">Shop Now</button>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="about-section" id="about">
+    <h2>Our Story</h2>
+    <p>
+      At The Scent, we are dedicated to promoting mental &amp; physical health. We import high quality raw materials from around the globe and export our finished products back worldwide. Through creative formulations and in-depth knowledge of aromatherapy, we craft well-rounded blends that soothe and rejuvenate.
+    </p>
+    <!-- Example of parallax or an interactive map placeholder -->
+    <div style="max-width: 800px; margin: 2rem auto;">
+      <img src="path/to/ingredient-map.jpg" alt="Ingredient origins map" style="width:100%; border-radius:5px;">
+    </div>
+  </section>
+
+  <!-- PRODUCTS SECTION -->
+  <section class="products-section" id="products">
+    <h2>Our Featured Collections</h2>
+    <div class="product-grid">
+      <!-- Example Product Cards -->
+      <div class="product-card">
+        <img src="https://raw.githubusercontent.com/nordeim/The-Scent/refs/heads/main/images/scent2.jpg" alt="Serenity Blend Oil">
+      </div>
+      <div class="product-card">
+        <img src="https://raw.githubusercontent.com/nordeim/The-Scent/refs/heads/main/images/scent4.jpg" alt="Focus Flow Oil">
+      </div>
+      <div class="product-card">
+        <img src="https://raw.githubusercontent.com/nordeim/The-Scent/refs/heads/main/images/scent5.jpg" alt="Breathe Clear Oil">
+      </div>
+      <div class="product-card">
+        <img src="https://raw.githubusercontent.com/nordeim/The-Scent/refs/heads/main/images/scent6.jpg" alt="Uplifting Acacia Blend Oil">
+      </div>
+      <div class="product-card">
+        <img src="https://raw.githubusercontent.com/nordeim/The-Scent/refs/heads/main/images/soap2.jpg" alt="Tranquil Blossom Soap">
+      </div>
+      <div class="product-card">
+        <img src="https://raw.githubusercontent.com/nordeim/The-Scent/refs/heads/main/images/soap4.jpg" alt="Cedar Rose Soap">
+      </div>
+      <div class="product-card">
+        <img src="https://raw.githubusercontent.com/nordeim/The-Scent/refs/heads/main/images/soap5.jpg" alt="Garden Rose Soap">
+      </div>
+      <div class="product-card">
+        <img src="https://raw.githubusercontent.com/nordeim/The-Scent/refs/heads/main/images/soap6.jpg" alt="Revitalizing Herbal Soap">
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENT QUIZ SECTION -->
+  <section class="quiz-section" id="quiz">
+    <h2>Find Your Signature Scent</h2>
+    <div class="quiz-container">
+      <!-- Step 1 -->
+      <div class="quiz-step active" data-step="1">
+        <p>What do you want right now?</p>
+        <div class="quiz-buttons">
+          <button onclick="nextStep(1)">Relaxation</button>
+          <button onclick="nextStep(1)">Energy</button>
+          <button onclick="nextStep(1)">Focus</button>
+          <button onclick="nextStep(1)">Restful Sleep</button>
+        </div>
+      </div>
+      <!-- Step 2 -->
+      <div class="quiz-step" data-step="2">
+        <p>Pick your preferred fragrance notes</p>
+        <div class="quiz-buttons">
+          <button onclick="nextStep(2)">Citrus</button>
+          <button onclick="nextStep(2)">Floral</button>
+          <button onclick="nextStep(2)">Earthy</button>
+          <button onclick="nextStep(2)">Spicy</button>
+        </div>
+      </div>
+      <!-- Step 3 -->
+      <div class="quiz-step" data-step="3">
+        <p>Choose an accent ingredient</p>
+        <div class="quiz-buttons">
+          <button onclick="showRecommendations()">Vanilla</button>
+          <button onclick="showRecommendations()">Mint</button>
+          <button onclick="showRecommendations()">Lavender</button>
+          <button onclick="showRecommendations()">Cinnamon</button>
+        </div>
+      </div>
+      <!-- Results -->
+      <div id="quiz-results" style="display:none; margin-top: 2rem;">
+        <p>Your perfect scent is ready! Treat yourself to the best match from our curated catalog.</p>
+        <button class="btn-hero" onclick="window.location.href='#products'">View Recommendations</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS SECTION -->
+  <section class="testimonials-section" id="testimonials">
+    <h2>What Our Customers Say</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial">
+        <p>"The Scent transformed my evening routine. Simply delightful."</p>
+        <div class="author">— Alex, Amsterdam</div>
+      </div>
+      <div class="testimonial">
+        <p>"Handcrafted soaps delivered the most luxurious spa experience at home."</p>
+        <div class="author">— Mia, Singapore</div>
+      </div>
+      <div class="testimonial">
+        <p>"I've searched the world for ingredients. The Scent is my best find yet."</p>
+        <div class="author">— Hana, Florence</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER / SUBSCRIPTION SECTION -->
+  <section class="newsletter-section">
+    <p>Be the first to know special offers, stories, and aromatherapy tips curated just for our community.</p>
+    <p style="font-size: 0.9rem; color: #666;">
+      By subscribing you agree to receive our emails.
+    </p>
+    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed!');">
+      <input type="email" placeholder="Your email address" required/>
+      <button type="submit">Subscribe</button>
+    </form>
+  </section>
+
+  <!-- FOOTER SECTION -->
+  <footer id="contact">
+    <div class="footer-container">
+      <!-- Column 1: Brand / Mini Overview -->
+      <div class="footer-column">
+        <h3>The Scent</h3>
+        <p style="font-size: 0.95rem;">
+          Premium aromas &amp; wellness products inspired by nature and crafted for harmony. From globally sourced raw materials to creative blends exported worldwide—aromatherapy made relevant for modern living.
+        </p>
+      </div>
+      <!-- Column 2: Quick Links -->
+      <div class="footer-column">
+        <h3>Shop</h3>
+        <ul>
+          <li><a href="#products">Essential Oils</a></li>
+          <li><a href="#products">Premium Soaps</a></li>
+          <li><a href="#products">Gift Sets</a></li>
+          <li><a href="#products">New This Season</a></li>
+          <li><a href="#products">Bestsellers</a></li>
+        </ul>
+      </div>
+      <!-- Column 3: Info -->
+      <div class="footer-column">
+        <h3>Information</h3>
+        <ul>
+          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="#contact">FAQs</a></li>
+          <li><a href="#contact">Shipping &amp; Returns</a></li>
+          <li><a href="#contact">Track Your Order</a></li>
+          <li><a href="#contact">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <!-- Column 4: Contact -->
+      <div class="footer-column">
+        <h3>Contact</h3>
+        <ul>
+          <li>123 Aroma Lane, Wellness City</li>
+          <li>+1 (555) 123-4567</li>
+          <li>care@thescent.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 The Scent. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- FLOATING SHOP NOW BUTTON -->
+  <button class="floating-cta" onclick="window.location.href='#products'">
+    <i class="fa fa-shopping-bag"></i> Shop Now
+  </button>
+
+  <!-- Optional Audio Toggle -->
+  <!--
+  <button class="audio-toggle" id="audio-toggle" aria-label="Toggle Audio">
+    <i class="fas fa-volume-up"></i>
+  </button>
+  <audio id="background-audio" loop>
+    <source src="path/to/background-audio.mp3" type="audio/mpeg">
+  </audio>
+  -->
+
+  <!-- SCRIPTS -->
+  <script>
+    // Simple Quiz Navigation
+    function nextStep(current) {
+      const currentDiv = document.querySelector(`.quiz-step[data-step="${current}"]`);
+      const nextDiv = document.querySelector(`.quiz-step[data-step="${current + 1}"]`);
+      if(currentDiv) currentDiv.classList.remove('active');
+      if(nextDiv) nextDiv.classList.add('active');
+    }
+    function showRecommendations() {
+      document.querySelectorAll('.quiz-step').forEach(step => step.classList.remove('active'));
+      document.getElementById('quiz-results').style.display = 'block';
+    }
+
+    // If using the optional audio toggle
+    /*
+    const audioToggle = document.getElementById('audio-toggle');
+    const backgroundAudio = document.getElementById('background-audio');
+    audioToggle.addEventListener('click', () => {
+      if(backgroundAudio.paused) {
+        backgroundAudio.play();
+        audioToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+      } else {
+        backgroundAudio.pause();
+        audioToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+      }
+    });
+    */
+  </script>
+</body>
+</html>
