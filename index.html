@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Scent | Immersive Aromatherapy</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Montserrat:wght@400;500&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Inline CSS -->
+  <style>
+    /* Reset & basic styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Raleway', sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    :root {
+      --primary-color: #7d5a50;
+      --accent-color: #a67c52;
+      --text-color: #333;
+      --bg-color: #fff;
+      --overlay-color: rgba(0, 0, 0, 0.4);
+    }
+    [data-theme="dark"] {
+      --primary-color: #bfa18a;
+      --accent-color: #d2a889;
+      --text-color: #ddd;
+      --bg-color: #222;
+      --overlay-color: rgba(0, 0, 0, 0.6);
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    /* Header & Navigation */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+      background: var(--bg-color);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    header .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    nav ul li {
+      font-size: 1rem;
+    }
+    .toggle-theme {
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 0.3rem;
+      border: none;
+      background: none;
+      color: var(--accent-color);
+    }
+    /* Hero Section */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-align: center;
+    }
+    .hero video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -2;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+    }
+    .hero .fallback {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('path/to/fallback-image.jpg') center center/cover no-repeat;
+      z-index: -2;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top:0; left:0;
+      width: 100%;
+      height: 100%;
+      background: var(--overlay-color);
+      z-index: -1;
+    }
+    .hero-content {
+      z-index: 1;
+      max-width: 800px;
+      padding: 2rem;
+    }
+    .hero-content h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+    }
+    .hero-content p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .hero-content .btn {
+      padding: 0.8rem 2rem;
+      background: var(--accent-color);
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .hero-content .btn:hover {
+      transform: scale(1.05);
+    }
+    /* SVG Scent Trails - positioned over hero */
+    .scent-trails {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* Parallax About Section */
+    .about {
+      padding: 5rem 2rem;
+      background: var(--bg-color);
+      position: relative;
+    }
+    .about h2 {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .about p {
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      text-align: center;
+    }
+    /* Product Showcase */
+    .products {
+      padding: 5rem 2rem;
+      background: var(--bg-color);
+    }
+    .products h2 {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .product-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 5px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .product-card img {
+      width: 100%;
+      display: block;
+    }
+    .product-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    /* Multi-step Quiz Section */
+    .quiz {
+      padding: 5rem 2rem;
+      background: var(--bg-color);
+      text-align: center;
+    }
+    .quiz h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .quiz-step {
+      display: none;
+      animation: fadeIn 0.5s ease forwards;
+    }
+    .quiz-step.active {
+      display: block;
+    }
+    .quiz-buttons {
+      margin-top: 1.5rem;
+    }
+    .quiz-buttons button {
+      padding: 0.8rem 1.5rem;
+      margin: 0 0.5rem;
+      border: none;
+      background: var(--accent-color);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .quiz-buttons button:hover {
+      background: var(--primary-color);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    /* Testimonials Section */
+    .testimonials {
+      padding: 5rem 2rem;
+      background: var(--bg-color);
+    }
+    .testimonials h2 {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .testimonial {
+      background: #f7f7f7;
+      padding: 1.5rem;
+      border-radius: 5px;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+    .testimonial:hover {
+      transform: translateY(-5px);
+    }
+    .testimonial p {
+      font-style: italic;
+    }
+    .testimonial .author {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    /* Floating Shop Now Button */
+    .floating-cta {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
+      padding: 1rem 1.5rem;
+      border-radius: 50px;
+      cursor: pointer;
+      z-index: 1000;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    /* Audio Toggle */
+    .audio-toggle {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1000;
+      font-size: 1.2rem;
+    }
+    /* Responsive adjustments */
+    @media(max-width: 768px) {
+      header {
+        flex-direction: column;
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body data-theme="light">
+  <!-- Header & Navigation -->
+  <header>
+    <div class="logo">The Scent</div>
+    <nav>
+      <ul>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">Our Story</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#quiz">Quiz</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="toggle-theme" id="theme-toggle" aria-label="Toggle Dark/Light Mode">
+      <i class="fas fa-moon"></i>
+    </button>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <video autoplay muted loop playsinline>
+      <source src="path/to/hero-video.mp4" type="video/mp4">
+      <!-- Fallback image if video cannot be played -->
+      Your browser does not support the video tag.
+    </video>
+    <div class="fallback"></div>
+    <div class="scent-trails">
+      <!-- Example SVG animation for scent trails -->
+      <svg width="100%" height="100%">
+        <path d="M0,100 C150,200 350,0 500,100" stroke="white" stroke-opacity="0.3" fill="none">
+          <animate attributeName="d" dur="10s" repeatCount="indefinite" values="
+            M0,100 C150,200 350,0 500,100;
+            M0,120 C150,220 350,20 500,120;
+            M0,100 C150,200 350,0 500,100
+          " />
+        </path>
+      </svg>
+    </div>
+    <div class="hero-content">
+      <h1>Welcome to The Scent</h1>
+      <p>Experience premium aromatherapy for holistic well-being.</p>
+      <button class="btn" onclick="location.href='#products'">Shop Now</button>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about" id="about">
+    <h2>Our Story</h2>
+    <p>At The Scent, we are dedicated to promoting mental and physical health. We import high quality raw materials from around the world to craft premium aromatherapy products that nurture, calm, and inspire.</p>
+    <!-- Example interactive map placeholder -->
+    <div style="max-width: 800px; margin: 2rem auto;">
+      <img src="path/to/ingredient-map.jpg" alt="Interactive Ingredient Map" style="width:100%; border-radius:5px;">
+    </div>
+  </section>
+
+  <!-- Product Showcase Section -->
+  <section class="products" id="products">
+    <h2>Our Products</h2>
+    <div class="product-grid">
+      <div class="product-card">
+        <img src="https://raw.githubusercontent.com/nordeim/The-Scent/refs/heads/main/images/scent2.jpg" alt="Aromatherapy Scent 1">
+      </div>
+      <div class="product-card">
+        <img src="https://raw.githubusercontent.com/nordeim/The-Scent/refs/heads/main/images/scent4.jpg" alt="Aromatherapy Scent 2">
+      </div>
+      <div class="product-card">
+        <img src="https://raw.githubusercontent.com/nordeim/The-Scent/refs/heads/main/images/scent5.jpg" alt="Aromatherapy Scent 3">
+      </div>
+      <div class="product-card">
+        <img src="https://raw.githubusercontent.com/nordeim/The-Scent/refs/heads/main/images/scent6.jpg" alt="Aromatherapy Scent 4">
+      </div>
+      <div class="product-card">
+        <img src="https://raw.githubusercontent.com/nordeim/The-Scent/refs/heads/main/images/soap2.jpg" alt="Premium Soap 1">
+      </div>
+      <div class="product-card">
+        <img src="https://raw.githubusercontent.com/nordeim/The-Scent/refs/heads/main/images/soap4.jpg" alt="Premium Soap 2">
+      </div>
+      <div class="product-card">
+        <img src="https://raw.githubusercontent.com/nordeim/The-Scent/refs/heads/main/images/soap5.jpg" alt="Premium Soap 3">
+      </div>
+      <div class="product-card">
+        <img src="https://raw.githubusercontent.com/nordeim/The-Scent/refs/heads/main/images/soap6.jpg" alt="Premium Soap 4">
+      </div>
+    </div>
+  </section>
+
+  <!-- Quiz Section -->
+  <section class="quiz" id="quiz">
+    <h2>Discover Your Signature Scent</h2>
+    <div id="quiz-container">
+      <div class="quiz-step active" data-step="1">
+        <p>Step 1: Choose your mood</p>
+        <!-- Options can be represented with buttons or icons -->
+        <div class="quiz-buttons">
+          <button onclick="nextStep(1)">Calm</button>
+          <button onclick="nextStep(1)">Energized</button>
+        </div>
+      </div>
+      <div class="quiz-step" data-step="2">
+        <p>Step 2: Select your preferred notes</p>
+        <div class="quiz-buttons">
+          <button onclick="nextStep(2)">Citrus</button>
+          <button onclick="nextStep(2)">Floral</button>
+        </div>
+      </div>
+      <div class="quiz-step" data-step="3">
+        <p>Step 3: Pick an accent ingredient</p>
+        <div class="quiz-buttons">
+          <button onclick="showRecommendations()">Herbal</button>
+          <button onclick="showRecommendations()">Spice</button>
+        </div>
+      </div>
+      <div id="quiz-results" style="display:none; margin-top: 2rem;">
+        <p>Your perfect scent is ready!</p>
+        <button class="btn" onclick="location.href='#products'">View Recommendations</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials" id="testimonials">
+    <h2>What Our Customers Say</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial">
+        <p>"The Scent has transformed my space into a sanctuary."</p>
+        <div class="author">- Alex</div>
+      </div>
+      <div class="testimonial">
+        <p>"Every product tells a story of care and quality."</p>
+        <div class="author">- Jamie</div>
+      </div>
+      <div class="testimonial">
+        <p>"I love how the aromas evoke such calm and clarity."</p>
+        <div class="author">- Morgan</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Floating Shop Now Button -->
+  <button class="floating-cta" onclick="location.href='#products'">
+    Shop Now
+  </button>
+
+  <!-- Audio Toggle Button -->
+  <button class="audio-toggle" id="audio-toggle" aria-label="Toggle Audio">
+    <i class="fas fa-volume-up"></i>
+  </button>
+
+  <!-- Optional Background Audio -->
+  <audio id="background-audio" loop>
+    <source src="path/to/background-audio.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Optional Contact Section -->
+  <section class="contact" id="contact" style="padding: 5rem 2rem; background: var(--bg-color); text-align: center;">
+    <h2>Contact Us</h2>
+    <p>For inquiries, please email us at <a href="mailto:info@the-scent.com.sg">info@the-scent.com.sg</a></p>
+  </section>
+
+  <!-- Scripts -->
+  <script>
+    // Dark/Light Mode Toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.addEventListener('click', () => {
+      const body = document.body;
+      const currentTheme = body.getAttribute('data-theme');
+      if(currentTheme === 'light') {
+        body.setAttribute('data-theme', 'dark');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      } else {
+        body.setAttribute('data-theme', 'light');
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+      }
+    });
+
+    // Quiz Functionality
+    function nextStep(currentStep) {
+      const currentDiv = document.querySelector(`.quiz-step[data-step="${currentStep}"]`);
+      const nextDiv = document.querySelector(`.quiz-step[data-step="${currentStep + 1}"]`);
+      if(currentDiv) currentDiv.classList.remove('active');
+      if(nextDiv) {
+        nextDiv.classList.add('active');
+      }
+    }
+    function showRecommendations() {
+      document.querySelectorAll('.quiz-step').forEach(step => step.classList.remove('active'));
+      document.getElementById('quiz-results').style.display = 'block';
+    }
+
+    // Audio Toggle Functionality
+    const audioToggle = document.getElementById('audio-toggle');
+    const backgroundAudio = document.getElementById('background-audio');
+    audioToggle.addEventListener('click', () => {
+      if(backgroundAudio.paused) {
+        backgroundAudio.play();
+        audioToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+      } else {
+        backgroundAudio.pause();
+        audioToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+      }
+    });
+  </script>
+</body>
+</html>
